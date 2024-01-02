@@ -7,27 +7,26 @@ import { AddressEntity } from './@datas/AddressEntity';
 import { DivingClubEntity } from './@datas/DivingClubEntity';
 import { AddressesModule } from './addresses/addresses-module';
 import { PersonsModule } from './persons/persons.module';
-import { PersonEntity } from './@datas/PersonEntity';
+import { PersonEntity } from './@datas/PersonEntity';;
+import { MonitorModule } from './monitor/monitor-module';
+import { MonitorEntity } from './@datas/MonitorEntity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mssql',
-      host: 'SURFACE-DAVID\\SQLEXPRESS',
-      port: 1433,
-      username: 'sa',
-      password: '123456pw$',
-      database: 'DivingClubs',
-      options: {
-        trustServerCertificate: true,
-        useUTC: true,
-      },
-      entities: [AddressEntity, DivingClubEntity, PersonEntity],
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '',
+      database: 'divingclubs',
+      entities: [AddressEntity, DivingClubEntity, PersonEntity, MonitorEntity],
       synchronize: true,
     }),
     DivingClubsModule,
     AddressesModule,
     PersonsModule,
+    MonitorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

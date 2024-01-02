@@ -7,6 +7,7 @@ import { AddressPatchDto } from 'src/@model-dto/address-patch-dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DivingClubEntity } from '../@datas/DivingClubEntity';
 import { DataSource, Repository } from 'typeorm';
+import { DivingClubDto } from 'src/@models/diving-club-dto';
 
 @Injectable()
 export class DivingClubsService extends BaseService<DivingClub> {
@@ -28,14 +29,19 @@ export class DivingClubsService extends BaseService<DivingClub> {
   }
 
   async saveDivingClub(club: DivingClub): Promise<DivingClub> {
-    return (await this.saveEntities(club))?.[0];
+    let clubEntity = new DivingClubEntity();
+    clubEntity = Object.keys(club).reduce(
+      (prev, key) => this.mapPatchDivingClub(prev, key, club),
+      clubEntity,
+    );
+    return this.saveEntity(clubEntity);
   }
 
   async patchDivingClub(club: DivingClubPatchDto): Promise<DivingClub> {
     let result: DivingClub = await this.getDivingClub(club.id);
     result.name = club.name ?? result.name;
     result = Object.keys(club).reduce(
-      (prev: DivingClub, key: string) =>
+      (prev: DivingClubEntity, key: string) =>
         this.mapPatchDivingClub(prev, key, club),
       result,
     );
@@ -48,10 +54,10 @@ export class DivingClubsService extends BaseService<DivingClub> {
     return result;
   }
   private mapPatchDivingClub(
-    prev: DivingClub,
+    prev: DivingClubEntity,
     key: string,
     club: DivingClubPatchDto,
-  ): DivingClub {
+  ): DivingClubEntity {
     if (club[key] instanceof AddressPatchDto) {
       prev[key] = this.addressService.mapAddress(club[key]);
     } else {

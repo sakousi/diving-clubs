@@ -13,7 +13,9 @@ import {
 } from '@nestjs/common';
 import { DivingClubsService } from './diving-clubs.service';
 import { DivingClubDto } from '../@models/diving-club-dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('diving-clubs')
 @Controller('diving-clubs')
 export class DivingClubsController {
   constructor(private readonly service: DivingClubsService) {}

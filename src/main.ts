@@ -8,7 +8,10 @@ async function bootstrap() {
     .setTitle('Diving clubs manager')
     .setDescription('The diving clubs manager API description')
     .setVersion('1.0')
-    .addTag('diving-club')
+    .addTag('diving-clubs')
+    .addTag('monitors')
+    .addTag('addresses')
+    .addTag('persons')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
